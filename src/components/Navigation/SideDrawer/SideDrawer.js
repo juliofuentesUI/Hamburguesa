@@ -8,7 +8,7 @@ const sideDrawer = (props) => {
   // ... conditionally attach css classes.
   return (
     <React.Fragment>
-      <Backdrop show/>
+      <Backdrop show clicked={props.closed}/>
       <div className={classes.SideDrawer}>
         <div className={classes.Logo}>
           <Logo/>
