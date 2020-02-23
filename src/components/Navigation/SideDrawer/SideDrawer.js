@@ -6,10 +6,15 @@ import Backdrop from '../../UI/BackDrop/Backdrop';
 
 const sideDrawer = (props) => {
   // ... conditionally attach css classes.
+  let attachedClasses = [classes.SideDrawer, classes.Close];
+  if (props.open) {
+    attachedClasses = [classes.SideDrawer, classes.Open];
+  }
+
   return (
     <React.Fragment>
-      <Backdrop show clicked={props.closed}/>
-      <div className={classes.SideDrawer}>
+      <Backdrop show={props.open} clicked={props.closed}/>
+      <div className={attachedClasses.join(' ')}>
         <div className={classes.Logo}>
           <Logo/>
         </div>
