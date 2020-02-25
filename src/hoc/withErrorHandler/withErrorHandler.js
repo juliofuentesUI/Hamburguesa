@@ -8,12 +8,13 @@ const withErrorHandler = ( WrappedComponent, axios ) => {
     constructor(props) {
       super(props);
       console.log(`withErrorHandler constructor is running rn`);
-      axios.interceptors.request.use(req => {
+
+      this.reqInterceptor = axios.interceptors.request.use(req => {
         this.setState({error: null});
         return req;
       });
 
-      axios.interceptors.response.use(res => res, error => {
+      this.resInterceptor = axios.interceptors.response.use(res => res, error => {
         //If this instance of axios ever detects an error response
         // then it will execute THIS callback, which will set error to true and
         //display a modal.
@@ -25,32 +26,18 @@ const withErrorHandler = ( WrappedComponent, axios ) => {
       error: null
     }
 
-
     static getDerivedStateFromProps(props, state) {
       console.log(`WithErrorHandler getDerivedStateFromProps`);
     }
 
-    // static getDerivedStateFromError(error) {
-    //   return {error: error};
-    // }
-
-    // componentDidCatch = (error) => {
-    //   console.log(error);
-    // }
 
     componentDidMount() {
       console.log(`WithErrorHandler has finally mounted`);
-      // axios.interceptors.request.use(req => {
-      //   this.setState({error: null});
-      //   return req;
-      // });
+    }
 
-      // axios.interceptors.response.use(res => res, error => {
-      //   //If this instance of axios ever detects an error response
-      //   // then it will execute THIS callback, which will set error to true and
-      //   //display a modal.
-      //   this.setState({ error });
-      // });
+    componentWillUnmount() {
+      axios.interceptors.request.eject(this.reqInterceptor);
+      axios.interceptors.response.eject(this.resInterceptor);
     }
 
     errorConfirmedHandler = () => {
