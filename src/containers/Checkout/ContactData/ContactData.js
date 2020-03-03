@@ -60,9 +60,9 @@ class ContactData extends Component {
           ]
         },
         value: '' 
-      },
-      loading: false
-    }
+      }
+    },
+    loading: false
   }
 
 
@@ -96,12 +96,52 @@ class ContactData extends Component {
 
   render() {
 
+    // const { orderForm } = this.state;
+
+    // const formFields = [];
+
+    // for (let key in orderForm) {
+    //   const elType = orderForm[key].elementType;
+    //   const elConfig = orderForm[key].elementConfig;
+    //   const value = orderForm[key].value;
+
+    //   if (elType === 'input') {
+    //     formFields.push(<Input elementType={elType} elementConfig={{...elConfig}} value={value} />);
+    //   } 
+
+    //   if (elType === 'select') {
+    //     formFields.push(<Input elementType={elType}  />);
+    //   }
+    // }
+
+    //HIS WAY
+    //
+    const formElementsArray = [];
+    for (let key in this.state.orderForm) {
+      formElementsArray.push({
+        id: key,
+        config: this.state.orderForm[key]
+      });
+    }
+
+    // deliveryMethod:  {
+    //   elementType: 'select',
+    //   elementConfig: {
+    //     options: [
+    //       {value: 'fastest', displayValue: 'Fastest'},
+    //       {value: 'cheapest', displayValue: 'cheapest'}
+    //     ]
+    //   },
+
     let form = (
       <form>
-        <Input elementType="..." elementConfig="..." value="..." />
-        <Input inputtype="input" type="email" name="email" placeholder="Your email"/>
-        <Input inputtype="input" type="text" name="street" placeholder="Street"/>
-        <Input inputtype="input" type="text" name="postal" placeholder="Postal code"/>
+        {formElementsArray.map(formElement => (
+          <Input 
+            key={formElement.id}
+            value={formElement.config.value}
+            elementConfig={formElement.config.elementConfig}
+            elementType={formElement.config.elementType} />
+        ))}
         <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
       </form>
     );
