@@ -26,10 +26,6 @@ const withErrorHandler = ( WrappedComponent, axios ) => {
       error: null
     }
 
-    static getDerivedStateFromProps(props, state) {
-      console.log(`WithErrorHandler getDerivedStateFromProps`);
-    }
-
 
     componentDidMount() {
       console.log(`WithErrorHandler has finally mounted`);

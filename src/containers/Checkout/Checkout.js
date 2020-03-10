@@ -2,32 +2,9 @@ import React, { Component } from 'react'
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import { Route } from 'react-router-dom';
 import ContactData from '../Checkout/ContactData/ContactData';
+import { connect } from 'react-redux';
 
 class Checkout extends Component {
-
-  state = {
-    ingredients: null,
-    price: 0
-  }
-
-  constructor(props) {
-    super(props);
-    const query = new URLSearchParams(this.props.location.search);
-    const ingredients = {};
-    let price = 0;
-    for (let param of query.entries()) {
-      //each entry has ['salad', '1']
-      if (param[0] === 'price') {
-          price = param[1];
-      } else {
-          ingredients[param[0]] = +param[1];
-      }
-
-    }
-    this.state = {ingredients, price};
-    //CANNOT SETSTATE of a component that is not yet mounted. assign it directly. 
-    // this.setState({ingredients, price});
-  }
   // UNSAFE_componentWillMount() {
   //   const query = new URLSearchParams(this.props.location.search);
   //   const ingredients = {};
@@ -59,11 +36,24 @@ class Checkout extends Component {
         <CheckoutSummary  
           checkoutCanceled={this.checkoutCanceledHandler}
           checkoutContinued={this.checkoutContinuedHandler}
-          ingredients={this.state.ingredients}/>
-        <Route path={this.props.match.path + '/contact-data' } render={(props) => (<ContactData {...props} price={this.state.price} ingredients={this.state.ingredients} />)} />
+          ingredients={this.props.ings}/>
+        <Route 
+          path={this.props.match.path + '/contact-data' } 
+          component={ContactData} />
       </div>
     );
   }
 };
 
-export default Checkout;
+const mapStateToProps = (state) => {
+  return {
+    ings: state.ingredients
+  }
+};
+//YOU DON'T NEED MAPDISPATCHTOPROPS, this component
+//only reads state, not dispatches changes to it.
+// const mapDispatchToProps = (state) => {
+
+// };
+
+export default connect(mapStateToProps)(Checkout);
