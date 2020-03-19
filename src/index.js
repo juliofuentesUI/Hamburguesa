@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -10,7 +10,7 @@ import thunk from 'redux-thunk';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
-
+import Spinner from './components/UI/Spinner/Spinner';
 
 // const logger = (state) => {
 //   return next => {
@@ -34,9 +34,11 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
 
 const app = (
   <Provider store={store}>
-    <BrowserRouter>
-      <App/> 
-    </BrowserRouter>
+    <Suspense fallback={<Spinner />}>
+      <BrowserRouter>
+        <App/> 
+      </BrowserRouter>
+    </Suspense>
   </Provider>
 )
 

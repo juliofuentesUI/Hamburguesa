@@ -1,13 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import Layout from './hoc/layout/Layout';
 import BurgerBuilder from './containers/burger-builder/BurgerBuilder';
 import Checkout  from './containers/Checkout/Checkout';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import Orders from './containers/Orders/Orders';
+// import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
+import Spinner from './components/UI/Spinner/Spinner';
+
+const Orders = React.lazy(() => {
+  return import('./containers/Orders/Orders');
+});
+
 
 class App extends Component {
 
